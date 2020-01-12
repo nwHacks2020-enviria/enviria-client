@@ -5,6 +5,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { Button, View } from "react-native";
 import React from 'react'; // for JSX support
 import AddScreen from "./Screens/AddScreen";
+import LeaderboardScreen from "./Screens/LeaderboardScreen";
 
 
 const TodayAdd = createStackNavigator(
@@ -29,7 +30,8 @@ const TodayAdd = createStackNavigator(
 const TabNavigator = createBottomTabNavigator({
   Home: HomeScreen,
   Account: AccountScreen,
-  TodayAdd
+  TodayAdd,
+  Leaderboard: LeaderboardScreen
 });
 
 export default createAppContainer(TabNavigator);
