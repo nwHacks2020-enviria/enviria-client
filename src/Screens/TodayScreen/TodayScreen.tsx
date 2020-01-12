@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, Button } from "react-native";
+import {withNavigation} from 'react-navigation'
 
 export default class TodayScreen extends React.Component {
   constructor(props) {
@@ -28,6 +29,19 @@ export default class TodayScreen extends React.Component {
       ]
     };
   }
+
+  static navigationOptions = ({navigation, screenProps}) => ({
+    title: "Today",
+    tabBarLabel: "Today",
+    headerRight: <Button
+          title="Add"
+          onPress={() => {
+            console.log("hello", navigation)
+            // this.props.navigation.navigate('AccountScreen')
+            navigation.navigate("Account")
+          }}
+        />
+  })
 
   render() {
     return (
