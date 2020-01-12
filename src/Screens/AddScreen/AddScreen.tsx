@@ -60,7 +60,8 @@ export default class AddScreen extends React.Component {
           flex: 1,
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+            backgroundColor: '#E5FFDB',
         }}
       >
         <FlatList
