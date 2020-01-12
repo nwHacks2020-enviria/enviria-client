@@ -1,37 +1,23 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet, Button } from "react-native";
+import moment from "moment";
+
+const apiURL = "https://0f8a9c98.ngrok.io"
+const token = "4cb8d8796e26cfc3eb3ce0c526c5e5c06437065b8df6867357bf92c490f205f9ca01787391af4cda53d76d716c53ef019bbf419d48cbb068eef39f4e0ea5b9c8"
 
 export default class TodayScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dataSource: [
-        {
-          id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-          title: "First Item",
-          description: "1st item",
-          score: -50,
-          createdAt: new Date(new Date() - 20 * 60000)
-        },
-        {
-          id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-          title: "Second Item",
-          description: "2nd item",
-          score: 50,
-          createdAt: new Date(new Date() - 30 * 60000)
-        },
-        {
-          id: "58694a0f-3da1-471f-bd96-145571e29d72",
-          title: "Third Item",
-          description: "3rd item",
-          score: 200,
-          createdAt: new Date(new Date() - 10 * 60000)
-        }
-      ]
+      dataSource: [],
+      fetchState: 'loading'
     };
 
-    console.log(this.state)
+  }
+
+  async componentDidMount() {
+    await this.getGreenScores()
   }
 
   // sort later
@@ -49,6 +35,17 @@ export default class TodayScreen extends React.Component {
         />
   })
 
+  getGreenScores = async () => {
+    fetch(apiURL + '/api/greenscore' + '?token=' + token)
+      .then((response) => {
+        console.log(response)
+        return response.json();
+      })
+      .then((res) => {
+        this.setState({dataSource: res.data, fetchState: 'done'})
+      });
+  }
+
   render() {
     return (
       <View
@@ -59,23 +56,29 @@ export default class TodayScreen extends React.Component {
           justifyContent: "center"
         }}
       >
-        <FlatList
+        {this.state.fetchState == 'loading' ? <Text>Loading...</Text>
+        : (
+          <FlatList
           style={styles.list}
           data={this.state.dataSource}
           renderItem={({ item }) => (
-            <Item title={item.title} score={item.score} />
+            <Item title={item.action} score={item.score} createdAt={item.createdAt} />
           )}
           keyExtractor={item => item.id}
         />
+        )}
       </View>
     );
   }
 }
 
-function Item({ title, score }) {
+function Item({ title, score, createdAt }) {
   return (
     <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.itemInner}>
+        <Text style={styles.title}>{title}</Text>
+        <Text>{moment(createdAt).format("hh:mm A")}</Text>
+      </View>
       <Text style={[styles.score, score >= 0 ? styles.goodScore : styles.badScore]}>{score}</Text>
     </View>
   );
@@ -96,21 +99,23 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   item: {
-    backgroundColor: "#f9c2ff",
-    padding: 8,
+    padding: 16,
     flex: 1,
     flexDirection: "row",
     width: "100%"
   },
+  itemInner: {
+    flex: 1,
+    flexDirection: "column"
+  },
   title: {
-    fontSize: 16
+    fontSize: 24
   },
   score: {
-    fontSize: 16,
+    fontSize: 24,
     position: "absolute",
-    right: 8,
-    top: 8,
-    bottom: 8
+    right: 16,
+    top: 16
   },
   badScore: {
     color: 'red'
