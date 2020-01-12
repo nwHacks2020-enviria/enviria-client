@@ -28,7 +28,7 @@ export class AppIn extends React.Component<{}, State> {
         this.enviria__authToken = await storage.get("enviria__authToken")
         console.log(`HMMMMM: ${this.enviria__authToken}`);
         if (this.enviria__authToken !== undefined && this.enviria__authToken !== null) {
-            let result = await axios.post(`https://0f8a9c98.ngrok.io/authenticateUsingToken?token=${this.enviria__authToken}`)
+            let result = await axios.post(`https://d11ae255.ngrok.io/authenticateUsingToken?token=${this.enviria__authToken}`)
             console.log(result)
             result.data && result.data.code === 200 ?
                 this.setState({ isAuthenticated: true, isLoading: false }) :
