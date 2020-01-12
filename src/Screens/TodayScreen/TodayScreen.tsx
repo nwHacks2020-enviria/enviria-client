@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   pageLayout: {
-    paddingBottom: 56
+    paddingBottom: 56,backgroundColor: '#E5FFDB', flex: 1
   },
   container: {
     flex: 1,

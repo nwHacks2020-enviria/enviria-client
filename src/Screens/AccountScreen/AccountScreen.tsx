@@ -4,11 +4,16 @@ import { Button } from 'react-native-elements';
 import { storage, events } from '../../Util/litsy';
 
 export default class AccountScreen extends React.Component {
+
+    static navigationOptions = ({navigation, screenProps}) => ({
+        title: "Profile",
+        tabBarLabel: "Profile"
+      })
+
     render() {
         return (
-            <View style={{ flex: 1, flexDirection: 'column', alignItems: "center", justifyContent: 'center' }}>
-                <Text>Welcome to the unfinished loginscreen</Text>
-                <Button title="bye" onPress={async () => {
+            <View style={{ flex: 1, flexDirection: 'column', alignItems: "center", justifyContent: 'center', backgroundColor: '#E5FFDB' }}>
+                <Button title="Log out" onPress={async () => {
                     await storage.remove("enviria__authToken")
                     events.get("rootRefresh")();
                 }} />
