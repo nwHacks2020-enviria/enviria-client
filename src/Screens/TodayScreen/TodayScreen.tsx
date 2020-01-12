@@ -2,7 +2,8 @@ import React from "react";
 import { View, Text, FlatList, StyleSheet, Button, Platform } from "react-native";
 import moment from "moment";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {storage, events} from '../../Util/litsy';
+import { storage } from "../../Util/litsy";
+import Axios from "axios";
 
 const apiURL = "https://d11ae255.ngrok.io"
 
@@ -37,10 +38,10 @@ export default class TodayScreen extends React.Component {
 
   getGreenScores = async (date) => {
     this.setState({fetchState: 'loading'})
-    let token = await storage.get("enviria__authToken")
+    let authToken = await storage.get("enviria__authToken")
 
-
-    fetch(apiURL + '/api/greenscoreByDay' + '?token=' + token, {
+    Axios.post(`${apiURL}/api/greenscoreByDay?token=${authToken}`)
+    fetch(apiURL + '/api/greenscoreByDay' + '?token=' + authToken, {
       method: 'post',
       headers: {
           'Content-Type': 'application/json'

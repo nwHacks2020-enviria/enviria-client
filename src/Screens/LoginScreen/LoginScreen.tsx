@@ -86,7 +86,7 @@ export default class LoginScreen extends React.Component<{}, LoginScreenState> {
                             username: this.state.username,
                             password: this.state.password
                         })
-                        await storage.set("enviria__authToken", `${authToken.data.data.token}`)
+                        await storage.set("enviria__authToken", `${authToken.data.token}`)
                         events.get("rootRefresh")();
                     }}
                 />
