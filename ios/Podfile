@@ -45,4 +45,6 @@ target 'enviria' do
   use_native_modules!
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
 end
