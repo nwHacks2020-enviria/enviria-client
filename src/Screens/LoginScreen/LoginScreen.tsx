@@ -77,12 +77,12 @@ export default class LoginScreen extends React.Component<{}, LoginScreenState> {
                     }}
                     title="Sign Up"
                     onPress={async () => {
-                        await Axios.post("https://0f8a9c98.ngrok.io/register", {
+                        await Axios.post("https://d11ae255.ngrok.io/register", {
                             username: this.state.username,
                             email: this.state.email,
                             password: this.state.password
                         })
-                        let authToken = await Axios.post("https://0f8a9c98.ngrok.io/authenticate", {
+                        let authToken = await Axios.post("https://d11ae255.ngrok.io/authenticate", {
                             username: this.state.username,
                             password: this.state.password
                         })
@@ -151,7 +151,7 @@ export default class LoginScreen extends React.Component<{}, LoginScreenState> {
                     }}
                     title="Sign In"
                     onPress={async () => {
-                        let authToken = await Axios.post("https://0f8a9c98.ngrok.io/authenticate", {
+                        let authToken = await Axios.post("https://d11ae255.ngrok.io/authenticate", {
                             username: this.state.username,
                             password: this.state.password
                         });

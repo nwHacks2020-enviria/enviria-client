@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, FlatList, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {storage, events} from '../../Util/litsy';
 
-const apiURL = "https://0f8a9c98.ngrok.io"
-const token = "5e6439ba7b3a09c6d9ebc8f8222d9f01b43287a211e22c6cd7a6c5ed2fac76ff3b54a72031e178eb32e54e513bbccf074ff9adb7560bd9de02d42982c990d0b8"
+const apiURL = "https://d11ae255.ngrok.io"
 
 export default class AddScreen extends React.Component {
     constructor(props) {
@@ -32,7 +32,9 @@ export default class AddScreen extends React.Component {
           />
     })
 
-    addAction = (selectedAction) => {
+    addAction = async (selectedAction) => {
+        let token = await storage.get("enviria__authToken")
+
         fetch(apiURL + '/api/greenscore' + '?token=' + token, {
             method: 'post',
             headers: {
