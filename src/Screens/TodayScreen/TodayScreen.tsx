@@ -56,7 +56,7 @@ function Item({ title, score }) {
   return (
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.score}>{score}</Text>
+      <Text style={[styles.score, score >= 0 ? styles.goodScore : styles.badScore]}>{score}</Text>
     </View>
   );
 }
@@ -87,6 +87,15 @@ const styles = StyleSheet.create({
   },
   score: {
     fontSize: 16,
-    alignSelf: "flex-end"
+    position: "absolute",
+    right: 8,
+    top: 8,
+    bottom: 8
+  },
+  badScore: {
+    color: 'red'
+  },
+  goodScore: {
+    color: 'green'
   }
 });
