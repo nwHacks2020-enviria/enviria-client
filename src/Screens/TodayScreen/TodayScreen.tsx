@@ -34,6 +34,8 @@ export default class TodayScreen extends React.Component {
     console.log(this.state)
   }
 
+  // sort later
+
   static navigationOptions = ({navigation, screenProps}) => ({
     title: "Today",
     tabBarLabel: "Today",
@@ -59,10 +61,7 @@ export default class TodayScreen extends React.Component {
       >
         <FlatList
           style={styles.list}
-          data={this.state.dataSource.sort((a, b) => {
-            console.log(a.createdAt.getTime() > b.createdAt.getTime())
-            return a.createdAt.getTime() > b.createdAt.getTime()
-          })}
+          data={this.state.dataSource}
           renderItem={({ item }) => (
             <Item title={item.title} score={item.score} />
           )}
