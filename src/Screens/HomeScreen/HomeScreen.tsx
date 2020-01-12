@@ -20,6 +20,12 @@ export default class HomeScreen extends React.Component {
         await this.getPast7days()
     }
 
+
+    static navigationOptions = ({navigation, screenProps}) => ({
+        title: "Home",
+        tabBarLabel: "Home"
+      })
+
     getPast7days = async () => {
         let token = await storage.get("enviria__authToken")
         
