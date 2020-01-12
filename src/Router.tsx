@@ -2,7 +2,7 @@ import { HomeScreen, AccountScreen, TodayScreen } from "./Screens";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import { Button } from "react-native";
+import { Button, View } from "react-native";
 import React from 'react'; // for JSX support
 
 
@@ -15,10 +15,9 @@ const TabNavigator = createBottomTabNavigator({
       navigationOptions: {
         title: "Today",
         headerRight: () => (
-          <Button
-            onPress={() => {}}
-            title={"Add"}
-          />)
+          <View style={{marginRight:8}} >
+        <Button title="Add" onPress={() => {alert("hi")}}></Button>
+    </View>)
     }
   }})
 });
