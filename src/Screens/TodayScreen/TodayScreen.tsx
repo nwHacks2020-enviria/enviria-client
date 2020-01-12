@@ -19,7 +19,7 @@ export default class TodayScreen extends React.Component {
   }
 
   async componentDidMount() {
-    await this.getGreenScores()
+    await this.getGreenScores(new Date())
   }
 
   // sort later
@@ -35,15 +35,27 @@ export default class TodayScreen extends React.Component {
         />
   })
 
-  getGreenScores = async () => {
+  getGreenScores = async (date) => {
     this.setState({fetchState: 'loading'})
 
-    fetch(apiURL + '/api/greenscore' + '?token=' + token)
+    fetch(apiURL + '/api/greenscoreByDay' + '?token=' + token, {
+      method: 'post',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          fromTime: date.getTime() - 60 * 60 * 24 * 1000,
+          toTime: date
+      })
+    })
       .then((response) => {
         return response.json();
       })
       .then((res) => {
-        this.setState({dataSource: res.data, fetchState: 'done'})
+        console.log(res)
+        let data = res.data.result
+        data.sort((a, b) => a.createdAt < b.createdAt)
+        this.setState({dataSource: data, fetchState: 'done'})
       });
   }
 
@@ -54,7 +66,7 @@ export default class TodayScreen extends React.Component {
       showDatePicker: Platform.OS === 'ios' ? true : false,
       selectedDate: date
     });
-    this.getGreenScores()
+    this.getGreenScores(date)
   }
 
   toggleDatePicker = () => {
@@ -74,7 +86,7 @@ export default class TodayScreen extends React.Component {
             </Text>
         </View>
         {this.state.fetchState == 'loading' ? <Text>Loading...</Text>
-        : (
+        : this.state.dataSource.length > 0 ?
           <FlatList
           style={styles.list}
           data={this.state.dataSource}
@@ -83,7 +95,7 @@ export default class TodayScreen extends React.Component {
           )}
           keyExtractor={item => item.id}
         />
-        )}
+        : <Text>No actions on this date</Text>}
         { this.state.showDatePicker && <DateTimePicker value={this.state.selectedDate}
                     is24Hour={true}
                     display="default"
