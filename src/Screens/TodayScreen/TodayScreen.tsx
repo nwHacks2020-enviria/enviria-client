@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet, Button } from "react-native";
-import {withNavigation} from 'react-navigation'
 
 export default class TodayScreen extends React.Component {
   constructor(props) {
@@ -11,23 +10,28 @@ export default class TodayScreen extends React.Component {
         {
           id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
           title: "First Item",
-          description: "stnareisn",
-          score: -50
+          description: "1st item",
+          score: -50,
+          createdAt: new Date(new Date() - 20 * 60000)
         },
         {
           id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
           title: "Second Item",
-          description: "stnareisn",
-          score: 50
+          description: "2nd item",
+          score: 50,
+          createdAt: new Date(new Date() - 30 * 60000)
         },
         {
           id: "58694a0f-3da1-471f-bd96-145571e29d72",
           title: "Third Item",
-          description: "stnareisn",
-          score: 200
+          description: "3rd item",
+          score: 200,
+          createdAt: new Date(new Date() - 10 * 60000)
         }
       ]
     };
+
+    console.log(this.state)
   }
 
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -38,7 +42,7 @@ export default class TodayScreen extends React.Component {
           onPress={() => {
             console.log("hello", navigation)
             // this.props.navigation.navigate('AccountScreen')
-            navigation.navigate("Account")
+            navigation.navigate("Add")
           }}
         />
   })
@@ -55,7 +59,10 @@ export default class TodayScreen extends React.Component {
       >
         <FlatList
           style={styles.list}
-          data={this.state.dataSource}
+          data={this.state.dataSource.sort((a, b) => {
+            console.log(a.createdAt.getTime() > b.createdAt.getTime())
+            return a.createdAt.getTime() > b.createdAt.getTime()
+          })}
           renderItem={({ item }) => (
             <Item title={item.title} score={item.score} />
           )}
