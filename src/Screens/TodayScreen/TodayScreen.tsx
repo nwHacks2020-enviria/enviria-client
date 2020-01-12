@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet, Button } from "react-native";
+import { View, Text, FlatList, StyleSheet, Button, Platform } from "react-native";
 import moment from "moment";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const apiURL = "https://0f8a9c98.ngrok.io"
 const token = "4cb8d8796e26cfc3eb3ce0c526c5e5c06437065b8df6867357bf92c490f205f9ca01787391af4cda53d76d716c53ef019bbf419d48cbb068eef39f4e0ea5b9c8"
@@ -11,9 +12,10 @@ export default class TodayScreen extends React.Component {
 
     this.state = {
       dataSource: [],
-      fetchState: 'loading'
+      fetchState: 'loading',
+      selectedDate: new Date(),
+      showDatePicker: false
     };
-
   }
 
   async componentDidMount() {
@@ -28,17 +30,16 @@ export default class TodayScreen extends React.Component {
     headerRight: <Button
           title="Add"
           onPress={() => {
-            console.log("hello", navigation)
-            // this.props.navigation.navigate('AccountScreen')
             navigation.navigate("Add")
           }}
         />
   })
 
   getGreenScores = async () => {
+    this.setState({fetchState: 'loading'})
+
     fetch(apiURL + '/api/greenscore' + '?token=' + token)
       .then((response) => {
-        console.log(response)
         return response.json();
       })
       .then((res) => {
@@ -46,16 +47,31 @@ export default class TodayScreen extends React.Component {
       });
   }
 
+  setDate = (_, date) => {
+    date = date !== undefined ? date : new Date()
+
+    this.setState({
+      showDatePicker: Platform.OS === 'ios' ? true : false,
+      selectedDate: date
+    });
+  }
+
+  toggleDatePicker = () => {
+    this.setState({showDatePicker: true})
+  }
+
   render() {
     return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
+      <View style={styles.pageLayout}>
+        <View style={styles.dateButtonContainer}>
+          <Text 
+            onPress={() => {
+              this.toggleDatePicker()
+            }}
+            style={styles.dateButton}>
+              {moment(this.selectedDate).isSame(new Date(), 'day') ? 'Today' : moment(this.selectedDate).format('dddd, MMMM Do')}
+            </Text>
+        </View>
         {this.state.fetchState == 'loading' ? <Text>Loading...</Text>
         : (
           <FlatList
@@ -67,6 +83,11 @@ export default class TodayScreen extends React.Component {
           keyExtractor={item => item.id}
         />
         )}
+        { this.state.showDatePicker && <DateTimePicker value={this.state.selectedDate}
+                    is24Hour={true}
+                    display="default"
+                    onChange={this.setDate} />
+        }
       </View>
     );
   }
@@ -91,9 +112,23 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     textAlign: "center"
   },
+  pageLayout: {
+    paddingBottom: 56
+  },
   container: {
     flex: 1,
     marginTop: 20
+  },
+  dateButtonContainer: {
+    width: '100%',
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgrey'
+  },
+  dateButton: {
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 16,
+    padding: 16,
   },
   list: {
     width: "100%"
