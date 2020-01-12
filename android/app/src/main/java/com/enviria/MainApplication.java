@@ -4,7 +4,8 @@ import android.app.Application;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.horcrux.svg.SvgPackage;
+import org.reactnative.maskedview.RNCMaskedViewPackage;
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;

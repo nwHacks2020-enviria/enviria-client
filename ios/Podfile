@@ -44,5 +44,8 @@ target 'enviria' do
   # react-native-cli autolinking
   use_native_modules!
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
+  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+
+  pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
 
 end
